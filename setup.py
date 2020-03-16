@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="lyquid-crlqjx",
     version="0.0.1",
-    author="",
+    author="Cyril Quijoux",
     author_email="",
     description="Liquid Quoine API client",
     long_description=long_description,

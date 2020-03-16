@@ -1,4 +1,3 @@
-import keyring
 import datetime as dt
 import jwt
 import requests
@@ -7,9 +6,9 @@ from urllib.parse import urlencode
 
 
 class LiquidClient:
-    def __init__(self, client_id):
+    def __init__(self, client_id, client_secret):
         self._client_id = client_id
-        self._client_secret = keyring.get_password('LIQUID_API', str(self._client_id))
+        self._client_secret = client_secret
         self._timestamp = int(dt.datetime.utcnow().timestamp())
         self._uri = "https://api.liquid.com"
 

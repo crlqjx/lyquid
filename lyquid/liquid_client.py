@@ -53,19 +53,47 @@ class LiquidClient:
         path = '/trading_accounts'
         return self._request(path=path, is_signed=True)
 
+    def get_trading_account(self, account_id):
+        path = f'/trading_accounts/{account_id}'
+        return self._request(path=path, is_signed=True)
+
+    def get_products(self):
+        path = '/products'
+        return self._request(path=path)
+
     def get_product(self, product_id: int):
         path = f'/products/{product_id}'
+        return self._request(path=path)
 
+    def get_perpetual_products(self):
+        path = '/products?perpetual=1'
+        return self._request(path=path)
+
+    def get_order_book(self, product_id: int, full: bool = True):
+        data = {'full': int(full)}
+        path = f'/products/{product_id}/price_levels?{urlencode(data)}'
         return self._request(path=path)
 
     def get_loans(self, currency: str):
         path = f'/loans?currency={currency}'
         return self._request(path=path, is_signed=True)
 
-    def get_trades(self, **params):
-        path = f'/trades?{urlencode(params)}'
+    def get_loan_bids(self, currency: str):
+        path = f'/loan_bids?currency={currency}'
         return self._request(path=path, is_signed=True)
 
-    def get_execution(self, product_id: int):
+    def get_trades(self, **params):
+        path = f"/trades?{urlencode(params)}"
+        return self._request(path=path, is_signed=True)
+
+    def get_trades_loans(self, trade_id):
+        path = f'/trades/{trade_id}/loans'
+        return self._request(path=path, is_signed=True)
+
+    def get_my_executions(self, product_id: int):
         path = f'/executions/me?product_id={product_id}'
         return self._request(path=path, is_signed=True)
+
+    def get_executions(self, product_id: int, limit: int = 20, page: int = 1):
+        path = f'/executions?product_id={product_id}&limit={limit}&page={page}'
+        return self._request(path=path)

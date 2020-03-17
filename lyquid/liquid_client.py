@@ -83,11 +83,22 @@ class LiquidClient:
         return self._request(path=path, is_signed=True)
 
     def get_trades(self, **params):
+        allowed_params = ['funding_currency', 'product_id', 'status', 'trading_type', 'side']
+        for param in params:
+            assert param in allowed_params, f'{param} not allowed, must be in {allowed_params}'
         path = f"/trades?{urlencode(params)}"
         return self._request(path=path, is_signed=True)
 
     def get_trades_loans(self, trade_id):
         path = f'/trades/{trade_id}/loans'
+        return self._request(path=path, is_signed=True)
+
+    def get_orders(self, **params):
+        allowed_params = ['funding_currency', 'product_id', 'status', 'trading_type', 'with_details']
+        for param in params:
+            assert param in allowed_params, f'{param} not allowed, must be in {allowed_params}'
+            params[param] = int(params[param]) if isinstance(params[param], bool) else params[param]
+        path = f'/orders?{urlencode(params)}'
         return self._request(path=path, is_signed=True)
 
     def get_my_executions(self, product_id: int):

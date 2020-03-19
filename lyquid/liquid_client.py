@@ -1,6 +1,7 @@
 import datetime as dt
 import jwt
 import requests
+import datetime as dt
 
 from urllib.parse import urlencode
 
@@ -107,4 +108,9 @@ class LiquidClient:
 
     def get_executions(self, product_id: int, limit: int = 20, page: int = 1):
         path = f'/executions?product_id={product_id}&limit={limit}&page={page}'
+        return self._request(path=path)
+
+    def get_executions_by_timestamp(self, product_id: int, timestamp: dt.datetime, limit: int = None):
+        timestamp = timestamp.timestamp()
+        path = f'/executions?product_id={product_id}&timestamp={timestamp}&limit={limit}'
         return self._request(path=path)

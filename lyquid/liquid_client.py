@@ -101,6 +101,46 @@ class LiquidClient:
         path = f"/trades?{urlencode(params)}"
         return self._request(path=path, is_signed=True)
 
+    def get_lending_transactions(self, currency: str, transaction_type: list = None):
+        """
+        get lending transactions (unpublished endpoint)
+        :param currency: lent currency
+        :param transaction_type: 'interest_transfer', 'loan', 'repay', 'loan_fee'
+        :return:
+        {
+            'current_page': 1,
+            'models': [
+                        {
+                            'action_id': None,
+                            'created_at': 1584659345,
+                            'currency': 'ETH',
+                            'exchange_fee': '0.0',
+                            'from_account_id': 475492,
+                            'from_role': None,
+                            'gross_amount': '0.0000035',
+                            'id': 400676443,
+                            'loan': {'currency': 'ETH', 'quantity': '0.1', 'rate': '0.00007'},
+                            'net_amount': '0.0000035',
+                            'network_fee': '0.0',
+                            'state': 'pending',
+                            'to_account_id': 1635604,
+                            'to_role': None,
+                            'transaction_hash': None,
+                            'transaction_type': 'loan_fee'
+                        },
+                        ...
+                     ]
+            'total_pages': 10000
+        }
+        """
+        allowed_transaction_types = ['interest_transfer', 'loan', 'repay', 'loan_fee']
+        transaction_type = allowed_transaction_types if transaction_type is None else transaction_type
+        for transac_type in transaction_type:
+            assert transac_type in allowed_transaction_types, f'{transac_type} not valid'
+        transaction_type = ','.join(transaction_type)
+        path = f"/transactions?currency={currency}&transaction_type={transaction_type}"
+        return self._request(path=path, is_signed=True)
+
     def get_trades_loans(self, trade_id):
         path = f'/trades/{trade_id}/loans'
         return self._request(path=path, is_signed=True)

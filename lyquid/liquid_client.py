@@ -38,6 +38,34 @@ class LiquidClient:
         else:
             response.raise_for_status()
 
+    def get_products(self):
+        path = '/products'
+        return self._request(path=path)
+
+    def get_product(self, product_id: int):
+        path = f'/products/{product_id}'
+        return self._request(path=path)
+
+    def get_perpetual_products(self):
+        path = '/products?perpetual=1'
+        return self._request(path=path)
+
+    def get_order_book(self, product_id: int, full: bool = True):
+        data = {'full': int(full)}
+        path = f'/products/{product_id}/price_levels?{urlencode(data)}'
+        return self._request(path=path)
+
+    def get_executions(self, product_id: int, limit: int = 20, page: int = 1):
+        path = f'/executions?product_id={product_id}&limit={limit}&page={page}'
+        return self._request(path=path)
+
+    def get_executions_by_timestamp(self, product_id: int, timestamp: dt.datetime, limit: int = None):
+        timestamp = timestamp.timestamp()
+        path = f'/executions?product_id={product_id}&timestamp={timestamp}&limit={limit}'
+        return self._request(path=path)
+
+    # ************************** Authenticated requests: **************************
+
     def get_crypto_accounts(self):
         path = '/crypto_accounts'
         return self._request(path=path, is_signed=True)
@@ -57,23 +85,6 @@ class LiquidClient:
     def get_trading_account(self, account_id):
         path = f'/trading_accounts/{account_id}'
         return self._request(path=path, is_signed=True)
-
-    def get_products(self):
-        path = '/products'
-        return self._request(path=path)
-
-    def get_product(self, product_id: int):
-        path = f'/products/{product_id}'
-        return self._request(path=path)
-
-    def get_perpetual_products(self):
-        path = '/products?perpetual=1'
-        return self._request(path=path)
-
-    def get_order_book(self, product_id: int, full: bool = True):
-        data = {'full': int(full)}
-        path = f'/products/{product_id}/price_levels?{urlencode(data)}'
-        return self._request(path=path)
 
     def get_loans(self, currency: str):
         path = f'/loans?currency={currency}'
@@ -105,12 +116,3 @@ class LiquidClient:
     def get_my_executions(self, product_id: int):
         path = f'/executions/me?product_id={product_id}'
         return self._request(path=path, is_signed=True)
-
-    def get_executions(self, product_id: int, limit: int = 20, page: int = 1):
-        path = f'/executions?product_id={product_id}&limit={limit}&page={page}'
-        return self._request(path=path)
-
-    def get_executions_by_timestamp(self, product_id: int, timestamp: dt.datetime, limit: int = None):
-        timestamp = timestamp.timestamp()
-        path = f'/executions?product_id={product_id}&timestamp={timestamp}&limit={limit}'
-        return self._request(path=path)

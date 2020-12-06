@@ -9,10 +9,10 @@ class LiquidClient:
     def __init__(self, client_id, client_secret):
         self._client_id = client_id
         self._client_secret = client_secret
-        self._timestamp = int(dt.datetime.utcnow().timestamp())
         self._uri = "https://api.liquid.com"
 
     def _auth_payload(self, path):
+        self._timestamp = int(dt.datetime.utcnow().timestamp())
         payload = {
             'path': path,
             'nonce': self._timestamp,

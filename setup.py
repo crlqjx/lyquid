@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="lyquid",
-    version="0.0.2",
+    version="0.0.3",
     author="Cyril Quijoux",
     author_email="",
     description="Liquid Quoine API client",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/crlqjx/orange_ox",
+    url="https://github.com/crlqjx/lyquid",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -22,6 +22,5 @@ setuptools.setup(
     install_requires=[
         'requests',
         'PyJWT',
-        'urllib'
     ]
 )

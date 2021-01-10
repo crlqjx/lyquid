@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="lyquid",
-    version="0.0.1",
+    version="0.0.2",
     author="Cyril Quijoux",
     author_email="",
     description="Liquid Quoine API client",

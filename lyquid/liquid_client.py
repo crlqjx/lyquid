@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 
 
 class LiquidClient:
-    def __init__(self, client_id, client_secret):
+    def __init__(self, client_id=None, client_secret=None):
         self._client_id = client_id
         self._client_secret = client_secret
         self._uri = "https://api.liquid.com"
